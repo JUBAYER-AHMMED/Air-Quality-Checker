@@ -25,7 +25,7 @@ app.use("/api", router);
 // });
 app.get("/", async (req, res) => {
   try {
-    const data = await test.find(); // Fetch all records
+    const data = await AirQuality.find(); // Fetch all records
     res.status(200).json(data); // Send the data as JSON
   } catch (error) {
     console.error("Error fetching data:", error);
