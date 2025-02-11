@@ -1,14 +1,14 @@
 import { useContext, useState, useEffect } from "react";
 import { DataContext } from "../store/dataFetch";
 import ScrollReveal from "scrollreveal";
+import axios from "axios"; // Import axios
 
 const PieDonut = () => {
   const { GetData } = useContext(DataContext);
-  const [fetchedData, setFetchedData] = useState(null);
+  const [fetchedData, setFetchedData] = useState([]);
   const [showDetails, setShowDetails] = useState(false);
 
   useEffect(() => {
-    // ScrollReveal setup
     const sr = ScrollReveal({
       origin: "top",
       distance: "60px",
@@ -21,21 +21,53 @@ const PieDonut = () => {
     let intervalId;
 
     if (showDetails) {
-      // Start interval when showDetails is true
       intervalId = setInterval(async () => {
         const data = await GetData();
-        setFetchedData(data);
+        setFetchedData(data); // Store the entire array of data
       }, 1000);
     }
 
-    // Cleanup interval on component unmount or when showDetails changes
     return () => {
       if (intervalId) clearInterval(intervalId);
     };
-  }, [showDetails, GetData]); // Add dependencies
+  }, [showDetails, GetData]);
 
   const handleOnClick = () => {
-    setShowDetails(true); // Show details and start fetching data
+    setShowDetails(true);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const location = formData.get("location");
+
+    if (!fetchedData.length) {
+      alert("Please wait for the sensor data to load.");
+      return;
+    }
+
+    // Example: Use the latest data (last entry) to submit
+    const airQuality = fetchedData[fetchedData.length - 1]?.airQuality || 0;
+
+    try {
+      const response = await axios.post(
+        "https://air-quality-checker-ftzu.onrender.com/api/air-quality",
+        { location, airQuality },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.status === 201) {
+        alert("Location and air quality submitted successfully!");
+      } else {
+        alert("Failed to submit data.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Error submitting data.");
+    }
   };
 
   return (
@@ -44,8 +76,10 @@ const PieDonut = () => {
         <div className="pie donut">
           <button className="btn-3d" onClick={handleOnClick}>
             {showDetails ? (
-              fetchedData ? (
-                <span className="percentage">{fetchedData} ppm</span>
+              fetchedData.length ? (
+                <span className="percentage">
+                  {fetchedData[fetchedData.length - 1]?.airQuality || "N/A"} ppm
+                </span>
               ) : (
                 <div className="name">Loading...</div>
               )
@@ -56,30 +90,7 @@ const PieDonut = () => {
         </div>
       </figure>
 
-      <form
-        onSubmit={(e) => {
-          e.preventDefault(); // Prevent the default form submission behavior
-          const formData = new FormData(e.target); // Get form data
-          const location = formData.get("location"); // Extract the 'location' value
-
-          // Send the data using fetch
-          fetch("http://localhost:8080/api/sensor-readings/location", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ location }),
-          })
-            .then((response) => {
-              if (response.ok) {
-                alert("Location submitted successfully!");
-              } else {
-                alert("Failed to submit location.");
-              }
-            })
-            .catch((error) => console.error("Error:", error));
-        }}
-      >
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
           name="location"
