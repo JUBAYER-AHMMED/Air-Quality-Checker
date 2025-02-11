@@ -49,25 +49,25 @@ const PieDonut = () => {
     // Example: Use the latest data (last entry) to submit
     const airQuality = fetchedData[fetchedData.length - 1]?.airQuality || 0;
 
-    try {
-      const response = await axios.post(
-        "https://air-quality-checker-ftzu.onrender.com/api/air-quality",
-        { location, airQuality },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (response.status === 201) {
-        alert("Location and air quality submitted successfully!");
-      } else {
-        alert("Failed to submit data.");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("Error submitting data.");
-    }
+    // try {
+    //   const response = await axios.post(
+    //     "https://air-quality-checker-ftzu.onrender.com/api/air-quality",
+    //     { location, airQuality },
+    //     {
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //     }
+    //   );
+    //   if (response.status === 201) {
+    //     alert("Location and air quality submitted successfully!");
+    //   } else {
+    //     alert("Failed to submit data.");
+    //   }
+    // } catch (error) {
+    //   console.error("Error:", error);
+    //   alert("Error submitting data.");
+    // }
   };
 
   return (
@@ -90,7 +90,7 @@ const PieDonut = () => {
         </div>
       </figure>
 
-      <form onSubmit={handleSubmit}>
+      {/* <form onSubmit={handleSubmit}>
         <input
           type="text"
           name="location"
@@ -98,7 +98,7 @@ const PieDonut = () => {
           required
         />
         <button type="submit">Enter</button>
-      </form>
+      </form> */}
     </>
   );
 };
