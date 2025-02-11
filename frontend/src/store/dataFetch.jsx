@@ -11,7 +11,9 @@ const DataProvider = ({ children }) => {
     setFetching(true);
 
     try {
-      const response = await fetch("http://localhost:8080/oxyTrack/oxygen");
+      const response = await fetch(
+        "http://localhost:8080/api/sensor-readings/latest"
+      );
       const data = await response.json();
       // console.log(data); // Log the data
       setFetching(false);
