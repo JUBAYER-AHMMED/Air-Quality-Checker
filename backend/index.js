@@ -21,7 +21,7 @@ app.use("/api", router);
 
 // Root route
 app.get("/", (req, res) => {
-  // res.send("Welcome to the Air Quality API!");
+  res.send("Welcome to the Air Quality API!");
 });
 
 // Start the server
