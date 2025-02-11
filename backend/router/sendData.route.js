@@ -1,33 +1,49 @@
 const express = require("express");
 const router = express.Router();
-const AirQuality = require("../models/AirQuality.model"); // Import the model
+const AirQuality = require("../models/AirQuality");
 
-// Save air quality data with location
-router.post("/air-quality", async (req, res) => {
-  const { location, airQuality } = req.body;
-  if (!location || !airQuality) {
-    return res
-      .status(400)
-      .send({ error: "Location and air quality are required." });
+// Save air quality data
+router.post("/api/air-quality", async (req, res) => {
+  const { airQuality } = req.body;
+
+  if (!airQuality) {
+    return res.status(400).send({ error: "Air quality is required." });
   }
+
   try {
-    const newEntry = new AirQuality({ location, airQuality });
+    const newEntry = new AirQuality({ airQuality });
     await newEntry.save();
-    res.status(201).send({ message: "Data saved successfully" });
+    res.status(201).send({ message: "Air quality data saved successfully." });
   } catch (error) {
-    console.error("Error saving data:", error);
-    res.status(500).send({ error: "Failed to save data" });
+    console.error("Error saving air quality:", error);
+    res.status(500).send({ error: "Failed to save air quality." });
   }
 });
 
-// Fetch all air quality data
-router.get("/air-quality", async (req, res) => {
+// Save or update location data
+router.post("/api/set-location", async (req, res) => {
+  const { location } = req.body;
+
+  if (!location) {
+    return res.status(400).send({ error: "Location is required." });
+  }
+
   try {
-    const data = await AirQuality.find(); // Fetch all records
-    res.status(200).json(data); // Send the data as JSON
+    // Update the most recent air quality entry with the location
+    const result = await AirQuality.updateOne(
+      {},
+      { $set: { location } },
+      { sort: { _id: -1 } } // Sort by most recent
+    );
+
+    if (result.modifiedCount === 0) {
+      return res.status(404).send({ error: "No air quality data to update." });
+    }
+
+    res.status(201).send({ message: "Location data saved successfully." });
   } catch (error) {
-    console.error("Error fetching data:", error);
-    res.status(500).send({ error: "Failed to fetch data" });
+    console.error("Error saving location:", error);
+    res.status(500).send({ error: "Failed to save location." });
   }
 });
 
