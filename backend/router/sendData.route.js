@@ -21,14 +21,14 @@ router.post("/air-quality", async (req, res) => {
 });
 
 // Fetch all air quality data
-// router.get("/air-quality/data", async (req, res) => {
-//   try {
-//     const data = await AirQuality.find(); // Fetch all records
-//     res.status(200).json(data); // Send the data as JSON
-//   } catch (error) {
-//     console.error("Error fetching data:", error);
-//     res.status(500).send({ error: "Failed to fetch data" });
-//   }
-// });
+router.get("/air-quality", async (req, res) => {
+  try {
+    const data = await AirQuality.find(); // Fetch all records
+    res.status(200).json(data); // Send the data as JSON
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    res.status(500).send({ error: "Failed to fetch data" });
+  }
+});
 
 module.exports = router;

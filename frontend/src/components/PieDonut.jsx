@@ -76,9 +76,9 @@ const PieDonut = () => {
         <div className="pie donut">
           <button className="btn-3d" onClick={handleOnClick}>
             {showDetails ? (
-              fetchedData.length ? (
+              fetchedData?.length ? (
                 <span className="percentage">
-                  {fetchedData[fetchedData.length - 1]?.airQuality || "N/A"} ppm
+                  {fetchedData[fetchedData.length - 1]?.airQuality || "0"} ppm
                 </span>
               ) : (
                 <div className="name">Loading...</div>
