@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 import { DataContext } from "../store/dataFetch";
 import ScrollReveal from "scrollreveal";
-import axios from "axios";
+import axios from "axios"; // Import axios
 
 const PieDonut = () => {
   const { GetData } = useContext(DataContext);
@@ -36,50 +36,39 @@ const PieDonut = () => {
     setShowDetails(true);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const location = formData.get("location").trim();
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const formData = new FormData(e.target);
+  //   const location = formData.get("location");
 
-    if (!fetchedData.length) {
-      alert("Please wait for the sensor data to load.");
-      return;
-    }
+  //   if (!fetchedData.length) {
+  //     alert("Please wait for the sensor data to load.");
+  //     return;
+  //   }
 
-    const airQuality = fetchedData[fetchedData.length - 1]?.airQuality || 0;
+  //   // Example: Use the latest data (last entry) to submit
+  //   const airQuality = fetchedData[fetchedData.length - 1]?.airQuality || 0;
 
-    try {
-      // Send air quality data
-      await axios.post(
-        "https://air-quality-checker-ftzu.onrender.com/api/air-quality",
-        { airQuality },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      // Send location data
-      await axios.post(
-        "https://air-quality-checker-ftzu.onrender.com/api/set-location",
-        { location },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      alert("Location and air quality submitted successfully!");
-    } catch (error) {
-      console.error("Error submitting data:", error);
-      alert(
-        error.response?.data?.error ||
-          "Error submitting data. Please try again."
-      );
-    }
-  };
+  //   try {
+  //     const response = await axios.post(
+  //       "https://air-quality-checker-ftzu.onrender.com/api/air-quality",
+  //       { location, airQuality },
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+  //     if (response.status === 201) {
+  //       alert("Location and air quality submitted successfully!");
+  //     } else {
+  //       alert("Failed to submit data.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //     alert("Error submitting data.");
+  //   }
+  // };
 
   return (
     <>
@@ -101,7 +90,7 @@ const PieDonut = () => {
         </div>
       </figure>
 
-      <form onSubmit={handleSubmit}>
+      {/* <form onSubmit={handleSubmit}>
         <input
           type="text"
           name="location"
@@ -109,7 +98,7 @@ const PieDonut = () => {
           required
         />
         <button type="submit">Enter</button>
-      </form>
+      </form> */}
     </>
   );
 };
