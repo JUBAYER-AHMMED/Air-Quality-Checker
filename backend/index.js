@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors"); // <-- Add this line
 const router = require("./router/sendData.route");
 const { connectToDB } = require("./connection");
-const AirQuality = require("../models/AirQuality.model");
+const AirQuality = require("./models/AirQuality.model");
 
 const app = express();
 const PORT = process.env.PORT || 3030;
