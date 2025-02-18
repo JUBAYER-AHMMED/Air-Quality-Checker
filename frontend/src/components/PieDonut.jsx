@@ -78,7 +78,7 @@ const PieDonut = () => {
             {showDetails ? (
               fetchedData?.length ? (
                 <span className="percentage">
-                  {fetchedData[fetchedData.length - 1]?.airQuality || "0"} ppm
+                  {fetchedData[fetchedData.length - 1]?.airQuality || "0"} pm
                 </span>
               ) : (
                 <div className="name">Loading...</div>

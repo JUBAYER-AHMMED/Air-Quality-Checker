@@ -5,13 +5,19 @@ const AirQuality = require("../models/AirQuality.model"); // Import the model
 // Save air quality data with location
 router.post("/air-quality", async (req, res) => {
   const { location, airQuality } = req.body;
-  if (!location || !airQuality) {
+  if (!location || !location.latitude || !location.longitude || !airQuality) {
     return res
       .status(400)
       .send({ error: "Location and air quality are required." });
   }
   try {
-    const newEntry = new AirQuality({ location, airQuality });
+    const newEntry = new AirQuality({
+      location: {
+        latitude: location.latitude,
+        longitude: location.longitude,
+      },
+      airQuality,
+    });
     await newEntry.save();
     res.status(201).send({ message: "Data saved successfully" });
   } catch (error) {
