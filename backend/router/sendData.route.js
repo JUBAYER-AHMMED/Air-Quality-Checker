@@ -10,11 +10,22 @@ const getLocationName = async (latitude, longitude) => {
     const response = await axios.get(
       `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}`
     );
-    const location = response.data.results[0]?.formatted || "Unknown Location"; // Default if no location is found
-    return location;
+
+    // Log the entire response to see what is being returned
+    console.log("OpenCage API Response:", response.data);
+
+    // Check if we have valid results
+    if (response.data.results && response.data.results.length > 0) {
+      const location =
+        response.data.results[0]?.formatted || "Unknown Location";
+      return location;
+    } else {
+      console.error("No valid location found for the coordinates");
+      return "Unknown Location"; // Return a default value if no location is found
+    }
   } catch (error) {
     console.error("Error fetching location name:", error);
-    return "Unknown Location";
+    return "Unknown Location"; // Return a default value if there is an error
   }
 };
 
