@@ -2,10 +2,9 @@ const mongoose = require("mongoose");
 
 const AirQualitySchema = new mongoose.Schema({
   location: {
-    latitude: Number,
-    longitude: Number,
+    name: { type: String, required: true }, // Store location name
   },
-  airQuality: Number,
+  airQuality: { type: Number, required: true },
   timestamp: { type: Date, default: Date.now },
 });
 
