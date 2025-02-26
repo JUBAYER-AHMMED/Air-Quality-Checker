@@ -6,7 +6,7 @@ const AirQuality = require("../models/AirQuality.model"); // Import the model
 // Function to get location name from latitude and longitude using OpenCage API
 const getLocationName = async (latitude, longitude) => {
   try {
-    const apiKey = "YOUR_OPENCAGE_API_KEY"; // Replace with your OpenCage API Key
+    const apiKey = "bbc25f7246c44be1bd2506a54adfbbf7"; // Replace with your OpenCage API Key
     const response = await axios.get(
       `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}`
     );
