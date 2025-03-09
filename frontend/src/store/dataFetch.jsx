@@ -1,7 +1,9 @@
 import { createContext, useState } from "react";
 import axios from "axios";
+
 export const DataContext = createContext({
-  GetData: () => {}, // Fixed typo: changed "Getdata" to "GetData"
+  GetData: () => {},
+  UpdateLocation: () => {}, // Add UpdateLocation function
 });
 
 const DataProvider = ({ children }) => {
@@ -9,17 +11,28 @@ const DataProvider = ({ children }) => {
 
   const GetData = async () => {
     setFetching(true);
-
     try {
       const response = await axios.get(
         "https://air-quality-checker-ftzu.onrender.com/api/air-quality"
       );
       setFetching(false);
-      return response.data; // Return the fetched data
+      return response.data;
     } catch (error) {
       console.error("Error fetching data:", error);
       setFetching(false);
-      return null; // Handle errors gracefully
+      return null;
+    }
+  };
+
+  const UpdateLocation = async (location) => {
+    try {
+      const response = await axios.post(
+        "https://air-quality-checker-ftzu.onrender.com/api/air-quality/location",
+        { location }
+      );
+      console.log("Location updated:", response.data);
+    } catch (error) {
+      console.error("Error updating location:", error);
     }
   };
 
@@ -27,6 +40,7 @@ const DataProvider = ({ children }) => {
     <DataContext.Provider
       value={{
         GetData,
+        UpdateLocation, // Provide UpdateLocation function
       }}
     >
       {children}

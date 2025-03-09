@@ -1,13 +1,13 @@
 import { useContext, useState, useEffect } from "react";
 import { DataContext } from "../store/dataFetch";
 import ScrollReveal from "scrollreveal";
-import axios from "axios"; // Import axios
 
 const PieDonut = () => {
-  const { GetData } = useContext(DataContext);
+  const { GetData, UpdateLocation } = useContext(DataContext);
   const [fetchedData, setFetchedData] = useState([]);
+  const [placeName, setPlaceName] = useState("");
+  const [userLocation, setUserLocation] = useState("");
   const [showDetails, setShowDetails] = useState(false);
-  const [placeName, setPlaceName] = useState(""); // State to hold the place name
 
   useEffect(() => {
     const sr = ScrollReveal({
@@ -20,77 +20,42 @@ const PieDonut = () => {
     sr.reveal(".charts");
 
     let intervalId;
-
     if (showDetails) {
       intervalId = setInterval(async () => {
         const data = await GetData();
-        setFetchedData(data); // Store the entire array of data
+        setFetchedData(Array.isArray(data) ? data : []); // Ensure fetchedData is always an array
       }, 1000);
     }
 
     return () => {
       if (intervalId) clearInterval(intervalId);
     };
-  }, [showDetails, GetData]);
+  }, [showDetails]);
 
   useEffect(() => {
-    if (fetchedData.length > 0) {
-      const { latitude, longitude } =
-        fetchedData[fetchedData.length - 1].location;
-
-      // Fetch place name using OpenCage Geocoder
-      const fetchPlaceName = async () => {
-        try {
-          console.log(
-            "Fetching place name for coordinates:",
-            latitude,
-            longitude
-          ); // Debugging log
-          const response = await axios.get(
-            `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=bbc25f7246c44be1bd2506a54adfbbf7`
-          );
-
-          console.log("OpenCage API response:", response.data); // Debugging log
-
-          const result = response.data.results[0]; // Get the first result
-          if (result) {
-            setPlaceName(result.formatted); // Set the place name
-          } else {
-            setPlaceName("Place not found"); // Handle case where no place is found
-          }
-        } catch (error) {
-          console.error("Error fetching place name:", error); // Log full error
-          // Check if error response exists and log it
-          if (error.response) {
-            console.error("Error response:", error.response);
-            setPlaceName(
-              `Error: ${error.response.status} - ${error.response.statusText}`
-            );
-          } else if (error.request) {
-            console.error("Error request:", error.request);
-            setPlaceName("Error: No response from server");
-          } else {
-            console.error("Error message:", error.message);
-            setPlaceName("Error fetching place name");
-          }
-        }
-      };
-
-      fetchPlaceName();
+    if (Array.isArray(fetchedData) && fetchedData.length > 0) {
+      const latestData = fetchedData[fetchedData.length - 1];
+      setPlaceName(
+        typeof latestData.location === "string"
+          ? latestData.location
+          : "Location not found"
+      );
     }
-  }, [fetchedData]); // Trigger when fetchedData changes
+  }, [fetchedData]);
 
-  const handleOnClick = () => {
-    setShowDetails(true);
+  const handleUpdateLocation = async () => {
+    await UpdateLocation(userLocation);
+    setPlaceName(userLocation);
+    setUserLocation("");
   };
 
   return (
     <>
       <figure className="charts">
         <div className="pie donut">
-          <button className="btn-3d" onClick={handleOnClick}>
+          <button className="btn-3d" onClick={() => setShowDetails(true)}>
             {showDetails ? (
-              fetchedData?.length ? (
+              fetchedData.length ? (
                 <span className="percentage">
                   {fetchedData[fetchedData.length - 1]?.airQuality || "0"} pm
                 </span>
@@ -104,11 +69,31 @@ const PieDonut = () => {
         </div>
       </figure>
 
+      {/* Input field for updating location */}
+      <div className="location-input">
+        <input
+          type="text"
+          placeholder="Enter location"
+          value={userLocation}
+          onChange={(e) => setUserLocation(e.target.value)}
+        />
+        <button onClick={handleUpdateLocation}>Update Location</button>
+      </div>
+
       {/* Display Place Name below the pie chart */}
       {showDetails && (
         <div className="location-name">
-          <p>{placeName || "Loading place name..."}</p>
+          <p>{placeName || "Location not available"}</p>
         </div>
+      )}
+
+      {/* ✅ Display fetched data safely */}
+      {Array.isArray(fetchedData) && fetchedData.length > 0 ? (
+        fetchedData.map((item) => (
+          <p key={item._id}>{item.name}</p> // Assuming MongoDB stores `_id`
+        ))
+      ) : (
+        <p>Loading data...</p>
       )}
     </>
   );
