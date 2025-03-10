@@ -14,7 +14,10 @@ const NavBar = () => {
             </a>
           </li>
           <li className="nav-item">
-            <a href="#" className="nav-link">
+            <a
+              href="https://air-quality-checker-ftzu.onrender.com/"
+              className="nav-link"
+            >
               History
             </a>
           </li>

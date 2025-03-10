@@ -77,7 +77,7 @@ const PieDonut = () => {
           value={userLocation}
           onChange={(e) => setUserLocation(e.target.value)}
         />
-        <button onClick={handleUpdateLocation}>Update Location</button>
+        <button onClick={handleUpdateLocation}>Update</button>
       </div>
 
       {/* Display Place Name below the pie chart */}
@@ -87,14 +87,14 @@ const PieDonut = () => {
         </div>
       )}
 
-      {/* ✅ Display fetched data safely */}
+      {/* ✅ Display fetched data safely
       {Array.isArray(fetchedData) && fetchedData.length > 0 ? (
         fetchedData.map((item) => (
           <p key={item._id}>{item.name}</p> // Assuming MongoDB stores `_id`
         ))
       ) : (
         <p>Loading data...</p>
-      )}
+      )} */}
     </>
   );
 };
