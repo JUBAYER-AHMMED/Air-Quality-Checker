@@ -18,7 +18,7 @@ const Heading = () => {
 
   return (
     <div className="heading-container">
-      <h1 className="header">Oxytrack</h1>
+      <h1 className="header">AirWatch</h1>
       <br />
       <p className="lead">
         Gain immediate visibility into oxygen concentration with our advanced

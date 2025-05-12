@@ -50,25 +50,31 @@ const PieDonut = () => {
   };
 
   return (
-    <>
+    <section>
       <figure className="charts">
         <div className="pie donut">
           <button className="btn-3d" onClick={() => setShowDetails(true)}>
             {showDetails ? (
               fetchedData.length ? (
                 <span className="percentage">
-                  {fetchedData[fetchedData.length - 1]?.airQuality || "0"} pm
+                  {fetchedData[fetchedData.length - 1]?.airQuality || "0"} ppm
                 </span>
               ) : (
                 <div className="name">Loading...</div>
               )
             ) : (
-              <div className="name">OxyTrack</div>
+              <div className="name">AirWatch</div>
             )}
           </button>
         </div>
       </figure>
 
+      {/* Display Place Name below the pie chart */}
+      {showDetails && (
+        <div className="location-name">
+          <p>{placeName || "Location not available"}</p>
+        </div>
+      )}
       {/* Input field for updating location */}
       <div className="location-input">
         <input
@@ -80,13 +86,6 @@ const PieDonut = () => {
         <button onClick={handleUpdateLocation}>Update</button>
       </div>
 
-      {/* Display Place Name below the pie chart */}
-      {showDetails && (
-        <div className="location-name">
-          <p>{placeName || "Location not available"}</p>
-        </div>
-      )}
-
       {/* ✅ Display fetched data safely
       {Array.isArray(fetchedData) && fetchedData.length > 0 ? (
         fetchedData.map((item) => (
@@ -95,7 +94,7 @@ const PieDonut = () => {
       ) : (
         <p>Loading data...</p>
       )} */}
-    </>
+    </section>
   );
 };
 

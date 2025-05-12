@@ -7,6 +7,7 @@ const AirQualitySchema = new mongoose.Schema({
   }, // Store location name
 
   airQuality: { type: String, required: true },
+
   timestamp: { type: Date, default: Date.now },
 });
 
