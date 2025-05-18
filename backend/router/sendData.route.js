@@ -94,8 +94,17 @@ router.get("/summary", async (req, res) => {
   };
 
   const summary = Object.entries(grouped).map(([location, values]) => {
-    // Clean and convert all values to numbers
-    const cleanValues = values.map((v) => Number(v)).filter((v) => !isNaN(v)); // remove NaN values
+    const nums = values.map((v) => Number(v)).filter((v) => !isNaN(v));
+    nums.sort((a, b) => a - b);
+
+    const q1 = nums[Math.floor(nums.length / 4)];
+    const q3 = nums[Math.floor((nums.length * 3) / 4)];
+    const iqr = q3 - q1;
+
+    const lowerBound = q1 - 1.5 * iqr;
+    const upperBound = q3 + 1.5 * iqr;
+
+    const cleanValues = nums.filter((v) => v >= lowerBound && v <= upperBound);
 
     const min = Math.min(...cleanValues).toFixed(2);
     const max = Math.max(...cleanValues).toFixed(2);
