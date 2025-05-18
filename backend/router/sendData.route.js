@@ -69,6 +69,47 @@ router.get("/air-quality", async (req, res) => {
     res.status(500).send({ error: "Failed to fetch data" });
   }
 });
+// Route: /api/air-quality/summary
+router.get("/summary", async (req, res) => {
+  const data = await AirQuality.find({});
+  const grouped = {};
+
+  data.forEach((entry) => {
+    const loc = entry.location?.trim();
+    const value = entry.airQuality;
+
+    // Skip if location is null, empty, or undefined
+    if (!loc) return;
+
+    if (!grouped[loc]) grouped[loc] = [];
+    grouped[loc].push(value);
+  });
+
+  const getStatus = (avg) => {
+    if (avg <= 50) return "Good";
+    if (avg <= 100) return "Moderate";
+    if (avg <= 300) return "Unhealthy";
+    if (avg <= 600) return "Very Unhealthy";
+    return "Hazardous";
+  };
+
+  const summary = Object.entries(grouped).map(([location, values]) => {
+    const min = Math.min(...values).toFixed(2);
+    const max = Math.max(...values).toFixed(2);
+    const avg = (values.reduce((a, b) => a + b, 0) / values.length).toFixed(2);
+    return {
+      location,
+      min,
+      max,
+      average: avg,
+      samples: values.length,
+      status: getStatus(avg),
+    };
+  });
+
+  res.json(summary);
+});
+
 router.post("/air-quality/location", async (req, res) => {
   if (typeof req.body.location === "object" && req.body.location.name) {
     location = req.body.location.name; // Extract `name` from the object

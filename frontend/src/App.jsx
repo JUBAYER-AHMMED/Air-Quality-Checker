@@ -4,6 +4,7 @@ import PieDonut from "./components/PieDonut";
 import DataProvider from "./store/dataFetch";
 import Heading from "./components/Heading";
 import NavBar from "./components/Navbar";
+import AirQualitySummaryTable from "./components/AirQualitySummaryTable";
 
 function App() {
   return (
@@ -13,6 +14,8 @@ function App() {
         <div className="container">
           <Heading />
           <PieDonut />
+
+          <AirQualitySummaryTable />
         </div>
       </DataProvider>
     </div>
