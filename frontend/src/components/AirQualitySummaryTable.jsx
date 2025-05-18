@@ -24,7 +24,7 @@ function AirQualitySummaryTable() {
   }, []);
 
   return (
-    <div className="p-4">
+    <div className="p-4 dtable">
       <h2 className="text-xl font-bold mb-4">📊 Air Quality Summary</h2>
       <table className="w-full table-auto border-collapse border border-gray-400">
         <thead>

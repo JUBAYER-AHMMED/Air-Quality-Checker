@@ -44,27 +44,53 @@ body {
 header {
   height: 120px;
 }
+.header {
+  font-size: 100px;
+  margin-top: 80px;
+  position: relative;
+  right: 3px;
+}
 
 .nav__menu {
   text-decoration: none;
   font-size: 44px;
+
 }
 
 /*edit start*/
 @media screen and (max-width: 1100px) {
   .container {
     flex-direction: column;
+    justify-content: center;
+   
+  }
+  .header {
+    margin-top: 0px;
+  }
+  
+  .slogan{
+    display: flex;
+    width: 95vw;
+    align-items: center;
+    justify-content: center;
+    column-gap: 5rem;
+  }
+  .para1{
+    width:60vw;
+    /* border: 1px solid red; */
+    text-align: justify;
   }
   .nav__menu {
     position: fixed;
     top: -100%;
     left: 0;
-    background-color: var(--body-color);
+    background-color: rgb(205, 232, 241);
     width: 100%;
     padding-block: 4.5rem 3.5rem; /*  revise   */
-    /* box-shadow: 0 4px 16px hsla(22, 100%, 8%, 0.2); */
+    box-shadow: 0 4px 16px hsla(22, 100%, 8%, 0.2);
     transition: top 0.4s;
     font-size: 25px;
+    z-index: 10;
   }
 }
 
@@ -227,12 +253,6 @@ html {
   flex-direction: column;
   text-align: left;
 }
-.header {
-  font-size: 100px;
-  margin-top: 80px;
-  position: relative;
-  right: 3px;
-}
 
 .sp {
   color: #07073a;
@@ -287,4 +307,12 @@ html {
   /* border: 1px solid red; */
 
   font-size: 26px;
+}
+
+.dtable{
+ /* border: 1px solid red;
+  */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

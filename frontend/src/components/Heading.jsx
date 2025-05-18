@@ -20,12 +20,14 @@ const Heading = () => {
     <div className="heading-container">
       <h1 className="header">AirWatch</h1>
       <br />
-      <p className="lead">
-        Gain immediate visibility into oxygen concentration with our advanced
-        monitoring technology. Stay informed, stay safe, and keep your
-        surroundings healthy.
-      </p>
-      <span className="sp"> Real-Time Oxygen Level Monitoring.</span>
+      <div className="slogan">
+        <p className="lead para1">
+          Gain immediate visibility into oxygen concentration with our advanced
+          monitoring technology. Stay informed, stay safe, and keep your
+          surroundings healthy.
+        </p>
+        <span className="sp"> Real-Time Oxygen Level Monitoring.</span>
+      </div>
     </div>
   );
 };
