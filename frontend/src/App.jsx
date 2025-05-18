@@ -14,9 +14,9 @@ function App() {
         <div className="container">
           <Heading />
           <PieDonut />
-
-          <AirQualitySummaryTable />
         </div>
+
+        <AirQualitySummaryTable />
       </DataProvider>
     </div>
   );

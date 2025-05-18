@@ -94,15 +94,24 @@ router.get("/summary", async (req, res) => {
   };
 
   const summary = Object.entries(grouped).map(([location, values]) => {
-    const min = Math.min(...values).toFixed(2);
-    const max = Math.max(...values).toFixed(2);
-    const avg = (values.reduce((a, b) => a + b, 0) / values.length).toFixed(2);
+    // Clean and convert all values to numbers
+    const cleanValues = values.map((v) => Number(v)).filter((v) => !isNaN(v)); // remove NaN values
+
+    const min = Math.min(...cleanValues).toFixed(2);
+    const max = Math.max(...cleanValues).toFixed(2);
+    const avg =
+      cleanValues.length > 0
+        ? (cleanValues.reduce((a, b) => a + b, 0) / cleanValues.length).toFixed(
+            2
+          )
+        : "0.00";
+
     return {
       location,
       min,
       max,
       average: avg,
-      samples: values.length,
+      samples: cleanValues.length,
       status: getStatus(avg),
     };
   });
