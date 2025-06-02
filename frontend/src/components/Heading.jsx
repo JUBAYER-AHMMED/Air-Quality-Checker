@@ -22,11 +22,10 @@ const Heading = () => {
       <br />
       <div className="slogan">
         <p className="lead para1">
-          Gain immediate visibility into oxygen concentration with our advanced
-          monitoring technology. Stay informed, stay safe, and keep your
-          surroundings healthy.
+          Monitor pollution levels instantly with our cutting-edge sensor network. Empower yourself to breathe cleaner air, protect your health, and create a safer environment around you.
         </p>
-        <span className="sp"> Real-Time Oxygen Level Monitoring.</span>
+        <span className="sp"> Real-Time Air Quality Monitoring at Your Fingertips
+.</span>
       </div>
     </div>
   );
