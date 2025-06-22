@@ -86,9 +86,10 @@ router.get("/summary", async (req, res) => {
   });
 
   const getStatus = (avg) => {
-    if (avg <= 50) return "Good";
-    if (avg <= 100) return "Moderate";
-    if (avg <= 300) return "Unhealthy";
+    if (avg <= 100) return "Excellent ";
+    if (avg <= 200) return "Good";
+    if (avg <= 300) return "Moderate";
+    if (avg <= 400) return "Unhealthy";
     if (avg <= 600) return "Very Unhealthy";
     return "Hazardous";
   };
