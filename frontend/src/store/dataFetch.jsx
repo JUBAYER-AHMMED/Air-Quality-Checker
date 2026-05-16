@@ -13,7 +13,7 @@ const DataProvider = ({ children }) => {
     setFetching(true);
     try {
       const response = await axios.get(
-        "https://air-quality-checker-ftzu.onrender.com/api/air-quality"
+        "https://air-quality-checker-i3ey.onrender.com/api/air-quality"
       );
       setFetching(false);
       return response.data;
@@ -27,7 +27,7 @@ const DataProvider = ({ children }) => {
   const UpdateLocation = async (location) => {
     try {
       const response = await axios.post(
-        "https://air-quality-checker-ftzu.onrender.com/api/air-quality/location",
+        "https://air-quality-checker-i3ey.onrender.com/api/air-quality/location",
         { location }
       );
       console.log("Location updated:", response.data);

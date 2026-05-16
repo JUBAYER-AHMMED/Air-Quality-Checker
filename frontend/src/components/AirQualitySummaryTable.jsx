@@ -6,7 +6,7 @@ function AirQualitySummaryTable() {
 
   useEffect(() => {
     axios
-      .get("https://air-quality-checker-ftzu.onrender.com/api/summary")
+      .get("https://air-quality-checker-i3ey.onrender.com/api/summary")
       .then((res) => {
         const data = res.data;
         // Convert object to array if needed
@@ -51,12 +51,12 @@ function AirQualitySummaryTable() {
                     item.status === "Good"
                       ? "text-green-600"
                       : item.status === "Moderate"
-                      ? "text-yellow-600"
-                      : item.status === "Unhealthy"
-                      ? "text-orange-600"
-                      : item.status === "Very Unhealthy"
-                      ? "text-red-600"
-                      : "text-purple-800"
+                        ? "text-yellow-600"
+                        : item.status === "Unhealthy"
+                          ? "text-orange-600"
+                          : item.status === "Very Unhealthy"
+                            ? "text-red-600"
+                            : "text-purple-800"
                   }`}
                 >
                   {item.status}
